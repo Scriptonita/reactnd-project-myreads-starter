@@ -5,7 +5,6 @@ class Book extends React.Component {
   render() {
     return (
       <div className="book">
-        {console.log("Book: ", this.props.book.imageLinks.thumbnail)}
         <div className="book-top">
           <div
             className="book-cover"
@@ -21,9 +20,26 @@ class Book extends React.Component {
               <option value="none" disabled>
                 Move to...
               </option>
-              <option value="currentlyReading">Currently Reading</option>
-              <option value="wantToRead">Want to Read</option>
-              <option value="read">Read</option>
+              <option
+                disabled={
+                  this.props.book.shelf === "currentlyReading" ? true : false
+                }
+                value="currentlyReading"
+              >
+                Currently Reading
+              </option>
+              <option
+                disabled={this.props.book.shelf === "wantToRead" ? true : false}
+                value="wantToRead"
+              >
+                Want to Read
+              </option>
+              <option
+                disabled={this.props.book.shelf === "read" ? true : false}
+                value="read"
+              >
+                Read
+              </option>
               <option value="none">None</option>
             </select>
           </div>
