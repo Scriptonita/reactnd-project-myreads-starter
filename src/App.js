@@ -2,9 +2,18 @@ import React from "react";
 import * as BooksAPI from "./BooksAPI";
 import { Route, Link } from "react-router-dom";
 import "./App.css";
+import Book from "./Book";
 
 class BooksApp extends React.Component {
-  state = {};
+  state = {
+    books: []
+  };
+
+  componentDidMount() {
+    BooksAPI.getAll().then(books => {
+      this.setState({ books });
+    });
+  }
 
   render() {
     return (
@@ -23,6 +32,14 @@ class BooksApp extends React.Component {
                     <h2 className="bookshelf-title">Currently Reading</h2>
                     <div className="bookshelf-books">
                       <ol className="books-grid">
+                        {this.state.books.map(
+                          book =>
+                            book.shelf === "currentlyReading" && (
+                              <li>
+                                <Book book={book} key={book.id} />
+                              </li>
+                            )
+                        )}
                         <li>
                           <div className="book">
                             <div className="book-top">
