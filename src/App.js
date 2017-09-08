@@ -38,7 +38,60 @@ class BooksApp extends React.Component {
     });
   }
 
-  handleChange(book, shelf) {}
+  handleChange = (book, shelf) => {
+    /**
+    * Remove book from actual section in local collection
+    *
+    */
+    switch (book.shelf) {
+      case "currentlyReading":
+        this.setState(state => ({
+          current: state.current.filter(b => b.id !== book.id)
+        }));
+        break;
+      case "wantToRead":
+        this.setState({
+          want: this.state.want.filter(b => b.id !== book.id)
+        });
+        break;
+      case "read":
+        this.setState(state => ({
+          read: state.read.filter(b => b.id !== book.id)
+        }));
+        break;
+      default:
+        console.log("Por Default");
+        break;
+    }
+    /**
+    * Update section with the book in local collection
+    *
+    */
+    book.shelf = shelf;
+    switch (shelf) {
+      case "currentlyReading":
+        this.setState(state => ({
+          current: state.current.push(book)
+        }));
+        break;
+      case "wantToRead":
+        this.setState(state => ({
+          want: state.want.push(book)
+        }));
+        break;
+      case "read":
+        this.setState(state => ({
+          read: state.read.push(book)
+        }));
+        break;
+      default:
+    }
+    /**
+    * Update Books collection in server
+    *
+    */
+    BooksAPI.update(book, shelf).then(console.log("Books Updated"));
+  };
 
   render() {
     return (
