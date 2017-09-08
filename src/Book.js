@@ -3,6 +3,7 @@ import "./App.css";
 
 class Book extends React.Component {
   render() {
+    const { book, moveTo } = this.props;
     return (
       <div className="book">
         <div className="book-top">
@@ -11,31 +12,28 @@ class Book extends React.Component {
             style={{
               width: 128,
               height: 193,
-              backgroundImage:
-                "url(" + this.props.book.imageLinks.thumbnail + ")"
+              backgroundImage: "url(" + book.imageLinks.thumbnail + ")"
             }}
           />
           <div className="book-shelf-changer">
-            <select>
+            <select onChange={e => moveTo(book, e.target.value)}>
               <option value="none" disabled>
                 Move to...
               </option>
               <option
-                disabled={
-                  this.props.book.shelf === "currentlyReading" ? true : false
-                }
+                disabled={book.shelf === "currentlyReading" ? true : false}
                 value="currentlyReading"
               >
                 Currently Reading
               </option>
               <option
-                disabled={this.props.book.shelf === "wantToRead" ? true : false}
+                disabled={book.shelf === "wantToRead" ? true : false}
                 value="wantToRead"
               >
                 Want to Read
               </option>
               <option
-                disabled={this.props.book.shelf === "read" ? true : false}
+                disabled={book.shelf === "read" ? true : false}
                 value="read"
               >
                 Read
@@ -44,8 +42,8 @@ class Book extends React.Component {
             </select>
           </div>
         </div>
-        <div className="book-title">{this.props.book.title}</div>
-        <div className="book-authors">{this.props.book.authors[0]}</div>
+        <div className="book-title">{book.title}</div>
+        <div className="book-authors">{book.authors.map(author => author)}</div>
       </div>
     );
   }

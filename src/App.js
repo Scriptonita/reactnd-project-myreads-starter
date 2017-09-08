@@ -6,14 +6,39 @@ import Book from "./Book";
 
 class BooksApp extends React.Component {
   state = {
-    books: []
+    current: [],
+    want: [],
+    read: []
   };
 
   componentDidMount() {
+    let current = [],
+      want = [],
+      read = [];
+    /**
+    * Map the books collection and send each book to section
+    *
+    */
     BooksAPI.getAll().then(books => {
-      this.setState({ books });
+      books.map(
+        book =>
+          book.shelf === "currentlyReading"
+            ? current.push(book)
+            : book.shelf === "wantToRead" ? want.push(book) : read.push(book)
+      );
+      /**
+      * Set states with books
+      *
+      */
+      this.setState({
+        current: current,
+        want: want,
+        read: read
+      });
     });
   }
+
+  handleChange(book, shelf) {}
 
   render() {
     return (
@@ -31,48 +56,75 @@ class BooksApp extends React.Component {
                 <div>
                   <div className="bookshelf">
                     <h2 className="bookshelf-title">Currently Reading</h2>
-                    <div className="bookshelf-books">
-                      <ol className="books-grid">
-                        {this.state.books.map(
-                          book =>
-                            book.shelf === "currentlyReading" && (
-                              <li>
-                                <Book book={book} key={book.id} />
-                              </li>
-                            )
-                        )}
-                      </ol>
-                    </div>
+                    {this.state.current.length > 0 ? (
+                      <div className="bookshelf-books">
+                        <ol className="books-grid">
+                          {this.state.current.map(
+                            book =>
+                              book.shelf === "currentlyReading" && (
+                                <li key={book.id}>
+                                  <Book
+                                    book={book}
+                                    moveTo={this.handleChange}
+                                  />
+                                </li>
+                              )
+                          )}
+                        </ol>
+                      </div>
+                    ) : (
+                      <p style={{ textAlign: "center" }}>
+                        There are not books in this sections
+                      </p>
+                    )}
                   </div>
                   <div className="bookshelf">
                     <h2 className="bookshelf-title">Want to Read</h2>
-                    <div className="bookshelf-books">
-                      <ol className="books-grid">
-                        {this.state.books.map(
-                          book =>
-                            book.shelf === "wantToRead" && (
-                              <li>
-                                <Book book={book} key={book.id} />
-                              </li>
-                            )
-                        )}
-                      </ol>
-                    </div>
+                    {this.state.want.length > 0 ? (
+                      <div className="bookshelf-books">
+                        <ol className="books-grid">
+                          {this.state.want.map(
+                            book =>
+                              book.shelf === "wantToRead" && (
+                                <li key={book.id}>
+                                  <Book
+                                    book={book}
+                                    moveTo={this.handleChange}
+                                  />
+                                </li>
+                              )
+                          )}
+                        </ol>
+                      </div>
+                    ) : (
+                      <p style={{ textAlign: "center" }}>
+                        There are not books in this sections
+                      </p>
+                    )}
                   </div>
                   <div className="bookshelf">
                     <h2 className="bookshelf-title">Read</h2>
-                    <div className="bookshelf-books">
-                      <ol className="books-grid">
-                        {this.state.books.map(
-                          book =>
-                            book.shelf === "read" && (
-                              <li>
-                                <Book book={book} key={book.id} />
-                              </li>
-                            )
-                        )}
-                      </ol>
-                    </div>
+                    {this.state.read.length > 0 ? (
+                      <div className="bookshelf-books">
+                        <ol className="books-grid">
+                          {this.state.read.map(
+                            book =>
+                              book.shelf === "read" && (
+                                <li key={book.id}>
+                                  <Book
+                                    book={book}
+                                    moveTo={this.handleChange}
+                                  />
+                                </li>
+                              )
+                          )}
+                        </ol>
+                      </div>
+                    ) : (
+                      <p style={{ textAlign: "center" }}>
+                        There are not books in this sections
+                      </p>
+                    )}
                   </div>
                 </div>
               </div>
