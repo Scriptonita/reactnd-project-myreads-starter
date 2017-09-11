@@ -2,13 +2,29 @@ import React from "react";
 import * as BooksAPI from "./BooksAPI";
 import { Route, Link } from "react-router-dom";
 import "./App.css";
-import Book from "./Book";
+import Section from "./Section";
+
+/** @Class BooksApp
+*
+* @classdesc BooksApp is the main class of application.
+* Route the app to home or to search
+*   - In home the app list the books for each shelf
+*     + Currently Reading
+*     + Want to Read
+*     + Read
+*   - In search we can search another books
+*
+* @param {array} current  -   books from the Currently Reading shelf
+* @param {array} want     -   books from the Want to read shelf
+* @param {array} read     -   books from the Read shelf
+*
+*/
 
 class BooksApp extends React.Component {
   state = {
-    current: [],
-    want: [],
-    read: []
+    current: [], // Books for Currently Reading
+    want: [], // Books for Want to Reading
+    read: [] // Books for Read
   };
 
   componentDidMount() {
@@ -24,7 +40,7 @@ class BooksApp extends React.Component {
         book =>
           book.shelf === "currentlyReading"
             ? current.push(book)
-            : book.shelf === "wantToRead" ? want.push(book) : read.push(book)
+            : book.shelf === "wantToRead" ? want.push(book) : read.push(book) // Shelf Is "Read"
       );
       /**
       * Set states with books
@@ -38,11 +54,11 @@ class BooksApp extends React.Component {
     });
   }
 
-  handleChange = (book, shelf) => {
-    /**
-    * Remove book from actual section in local collection
-    *
-    */
+  /**
+  * Remove book from actual section in local collection
+  *
+  */
+  removeBook(book, shelf) {
     switch (book.shelf) {
       case "currentlyReading":
         this.setState(state => ({
@@ -63,29 +79,38 @@ class BooksApp extends React.Component {
         console.log("Por Default");
         break;
     }
-    /**
-    * Update section with the book in local collection
-    *
-    */
-    book.shelf = shelf;
+  }
+
+  /**
+  * Update section with the book in local collection
+  *
+  */
+  addBook(book, shelf) {
     switch (shelf) {
       case "currentlyReading":
         this.setState(state => ({
-          current: state.current.push(book)
+          current: state.current.concat([book])
         }));
         break;
       case "wantToRead":
         this.setState(state => ({
-          want: state.want.push(book)
+          want: state.want.concat([book])
         }));
         break;
       case "read":
         this.setState(state => ({
-          read: state.read.push(book)
+          read: state.read.concat([book])
         }));
         break;
       default:
     }
+  }
+
+  handleChange = (book, shelf) => {
+    this.removeBook(book, shelf);
+    book.shelf = shelf;
+    this.addBook(book, shelf);
+
     /**
     * Update Books collection in server
     *
@@ -107,78 +132,21 @@ class BooksApp extends React.Component {
               </div>
               <div className="list-books-content">
                 <div>
-                  <div className="bookshelf">
-                    <h2 className="bookshelf-title">Currently Reading</h2>
-                    {this.state.current.length > 0 ? (
-                      <div className="bookshelf-books">
-                        <ol className="books-grid">
-                          {this.state.current.map(
-                            book =>
-                              book.shelf === "currentlyReading" && (
-                                <li key={book.id}>
-                                  <Book
-                                    book={book}
-                                    moveTo={this.handleChange}
-                                  />
-                                </li>
-                              )
-                          )}
-                        </ol>
-                      </div>
-                    ) : (
-                      <p style={{ textAlign: "center" }}>
-                        There are not books in this sections
-                      </p>
-                    )}
-                  </div>
-                  <div className="bookshelf">
-                    <h2 className="bookshelf-title">Want to Read</h2>
-                    {this.state.want.length > 0 ? (
-                      <div className="bookshelf-books">
-                        <ol className="books-grid">
-                          {this.state.want.map(
-                            book =>
-                              book.shelf === "wantToRead" && (
-                                <li key={book.id}>
-                                  <Book
-                                    book={book}
-                                    moveTo={this.handleChange}
-                                  />
-                                </li>
-                              )
-                          )}
-                        </ol>
-                      </div>
-                    ) : (
-                      <p style={{ textAlign: "center" }}>
-                        There are not books in this sections
-                      </p>
-                    )}
-                  </div>
-                  <div className="bookshelf">
-                    <h2 className="bookshelf-title">Read</h2>
-                    {this.state.read.length > 0 ? (
-                      <div className="bookshelf-books">
-                        <ol className="books-grid">
-                          {this.state.read.map(
-                            book =>
-                              book.shelf === "read" && (
-                                <li key={book.id}>
-                                  <Book
-                                    book={book}
-                                    moveTo={this.handleChange}
-                                  />
-                                </li>
-                              )
-                          )}
-                        </ol>
-                      </div>
-                    ) : (
-                      <p style={{ textAlign: "center" }}>
-                        There are not books in this sections
-                      </p>
-                    )}
-                  </div>
+                  <Section
+                    title="Currently Reading"
+                    books={this.state.current}
+                    handleChange={this.handleChange}
+                  />
+                  <Section
+                    title="Want to Read"
+                    books={this.state.want}
+                    handleChange={this.handleChange}
+                  />
+                  <Section
+                    title="Read"
+                    books={this.state.read}
+                    handleChange={this.handleChange}
+                  />
                 </div>
               </div>
               <div className="open-search">
