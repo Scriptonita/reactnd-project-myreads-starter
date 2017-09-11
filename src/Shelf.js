@@ -4,15 +4,15 @@ import Book from "./Book";
 import "./App.css";
 
 /** @function
-* @name Section
+* @name Shelf
 * Represent a shelf
 * There are 3 sections:
 *   Currently Reading: receive book from this.props,current
 *   Want to read: receive books from this.props.want
 *   Read: receive books from this.props.read
 *
-*   @param {string} title - title of Section
-*   @param {array} books - book collection for each Section
+*   @param {string} title - title of Shelf
+*   @param {array} books - book collection for each Shelf
 *   @param {function} handleChange - function to change the state
 */
 
@@ -27,15 +27,19 @@ const Shelf = ({ title, books, handleChange }) => {
       <h2 className="bookshelf-title">
         {title} ({books.length})
       </h2>
-      <div className="bookshelf-books">
-        <ol className="books-grid">
-          {books.map(book => (
-            <li key={book.id}>
-              <Book book={book} moveTo={handleChange} />
-            </li>
-          ))}
-        </ol>
-      </div>
+      {books.length > 0 ? (
+        <div className="bookshelf-books">
+          <ol className="books-grid">
+            {books.map(book => (
+              <li key={book.id}>
+                <Book book={book} moveTo={handleChange} />
+              </li>
+            ))}
+          </ol>
+        </div>
+      ) : (
+        <p style={{ textAlign: "center" }}>There are not books in this shelf</p>
+      )}
     </div>
   );
 };

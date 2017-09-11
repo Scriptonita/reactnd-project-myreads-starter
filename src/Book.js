@@ -11,6 +11,10 @@ import "./App.css";
 */
 
 const Book = ({ book, moveTo }) => {
+  Book.propTypes = {
+    book: PropTypes.object.isRequired,
+    moveTo: PropTypes.func.isRequired
+  };
   return (
     <div className="book">
       <div className="book-top">
