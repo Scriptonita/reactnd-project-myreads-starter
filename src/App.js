@@ -17,7 +17,10 @@ import Section from "./Section";
 * @param {array} current  -   books from the Currently Reading shelf
 * @param {array} want     -   books from the Want to read shelf
 * @param {array} read     -   books from the Read shelf
-*
+* @method componentDidMount - receive all the books from application
+* @method removeBook        - remove a book from a shelf
+* @method addBook           - add book to a shelf
+* @method handleChange      - handler to change books from a shelf to another
 */
 
 class BooksApp extends React.Component {
@@ -27,14 +30,17 @@ class BooksApp extends React.Component {
     read: [] // Books for Read
   };
 
+  /**
+  * @function
+  * @name componentDidMount
+  * Use BooksAPI to get the entire collection of books in shelfs and
+  * put each book in the respective virtual shelf
+  */
   componentDidMount() {
     let current = [],
       want = [],
       read = [];
-    /**
-    * Map the books collection and send each book to section
-    *
-    */
+    /** Map the books collection and send each book to section */
     BooksAPI.getAll().then(books => {
       books.map(
         book =>
@@ -42,10 +48,7 @@ class BooksApp extends React.Component {
             ? current.push(book)
             : book.shelf === "wantToRead" ? want.push(book) : read.push(book) // Shelf Is "Read"
       );
-      /**
-      * Set states with books
-      *
-      */
+      /** Set states with books */
       this.setState({
         current: current,
         want: want,
@@ -55,8 +58,11 @@ class BooksApp extends React.Component {
   }
 
   /**
+  * @function
+  * @name removeBook
   * Remove book from actual section in local collection
-  *
+  * @param {object} book  - A book that we want to remove from a shelf
+  * @param {string} shelf - The name of shelf where is the book
   */
   removeBook(book, shelf) {
     switch (book.shelf) {
@@ -82,8 +88,11 @@ class BooksApp extends React.Component {
   }
 
   /**
-  * Update section with the book in local collection
-  *
+  * @function
+  * @name addBook
+  * Add a book to a section in local collection
+  * @param {object} book  - A book that we want to add to a shelf
+  * @param {string} shelf - The name of shelf where add the book
   */
   addBook(book, shelf) {
     switch (shelf) {
@@ -106,15 +115,21 @@ class BooksApp extends React.Component {
     }
   }
 
+  /**
+  * @function
+  * @name handleChange
+  * Handler to change the books from a shelf to another in local collection
+  * and update the book in the server
+  * @param {object} book  - A book that we want to remove from a shelf
+  * @param {string} shelf - The name of shelf where is the book
+  */
+
   handleChange = (book, shelf) => {
+    /** changes in local collection */
     this.removeBook(book, shelf);
     book.shelf = shelf;
     this.addBook(book, shelf);
-
-    /**
-    * Update Books collection in server
-    *
-    */
+    /** Update Books collection in server */
     BooksAPI.update(book, shelf).then(console.log("Books Updated"));
   };
 
