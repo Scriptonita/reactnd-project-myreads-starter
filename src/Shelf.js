@@ -5,7 +5,7 @@ import "./App.css";
 
 /** @function
 * @name Section
-* Represent a Section
+* Represent a shelf
 * There are 3 sections:
 *   Currently Reading: receive book from this.props,current
 *   Want to read: receive books from this.props.want
@@ -16,8 +16,8 @@ import "./App.css";
 *   @param {function} handleChange - function to change the state
 */
 
-const Section = ({ title, books, handleChange }) => {
-  Section.propTypes = {
+const Shelf = ({ title, books, handleChange }) => {
+  Shelf.propTypes = {
     title: PropTypes.string.isRequired,
     books: PropTypes.array.isRequired,
     handleChange: PropTypes.func.isRequired
@@ -40,4 +40,4 @@ const Section = ({ title, books, handleChange }) => {
   );
 };
 
-export default Section;
+export default Shelf;

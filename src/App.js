@@ -2,7 +2,7 @@ import React from "react";
 import * as BooksAPI from "./BooksAPI";
 import { Route, Link } from "react-router-dom";
 import "./App.css";
-import Section from "./Section";
+import Shelf from "./Shelf";
 
 /** @Class BooksApp
 *
@@ -147,17 +147,17 @@ class BooksApp extends React.Component {
               </div>
               <div className="list-books-content">
                 <div>
-                  <Section
+                  <Shelf
                     title="Currently Reading"
                     books={this.state.current}
                     handleChange={this.handleChange}
                   />
-                  <Section
+                  <Shelf
                     title="Want to Read"
                     books={this.state.want}
                     handleChange={this.handleChange}
                   />
-                  <Section
+                  <Shelf
                     title="Read"
                     books={this.state.read}
                     handleChange={this.handleChange}
