@@ -25,7 +25,7 @@ import Book from "./Book";
 * @method addBook           - add book to a shelf
 * @method handleChange      - handler to change books from a shelf to another
 * @method updateQuery       - to search a book with BooksAPI
-* @method clearQuery        - clear search parameters 
+* @method clearQuery        - clear search parameters
 */
 
 class BooksApp extends React.Component {
@@ -130,32 +130,81 @@ class BooksApp extends React.Component {
   * @param {object} book  - A book that we want to remove from a shelf
   * @param {string} shelf - The name of shelf where is the book
   */
-
   handleChange = (book, shelf) => {
     /** changes in local collection */
     this.removeBook(book, shelf);
     book.shelf = shelf;
     this.addBook(book, shelf);
     /** Update Books collection in server */
-    BooksAPI.update(book, shelf).then(console.log("Books Updated"));
+    BooksAPI.update(book, shelf)
+      .then(result => console.log("Books Updated: ", result))
+      .catch(error => console.log("There was a problem: ", error));
+  };
+
+  /**
+  * @function
+  * @name adquireBook
+  * Add a book from BooksAPI.search to a shelf
+  * @param {object} book  - A book to add
+  * @param {string} shelf - The shelf where add the book
+  */
+  adquireBook = (book, shelf) => {
+    console.log("Shelf to adquire book: " + shelf);
+    this.addBook(book, shelf);
+    BooksAPI.update(book, shelf)
+      .then(result => console.log("Books Updated: ", result))
+      .catch(error => console.log("There was a problem: ", error));
+  };
+
+  /**
+  * @function
+  * @name existBookInShelf
+  * Check if a book is in a shelf
+  * @param {object} book  - A book to check
+  * @param {string} shelf - The shelf where check
+  */
+  existBookInShelf = (book, shelf) => {
+    let found = false;
+    switch (shelf) {
+      case "currentlyReading":
+        for (let b of this.state.current) if (b.id === book.id) found = true;
+        break;
+      case "wantToRead":
+        for (let b of this.state.want) if (b.id === book.id) found = true;
+        break;
+      case "read":
+        for (let b of this.state.read) if (b.id === book.id) found = true;
+        break;
+      default:
+    }
+    return found;
   };
 
   /**
   * @function
   * @name updateQuery
-  * Get the query and use itt to seach books with the BooksAPI
+  * Get the query and use it to seach books with the BooksAPI
   * @param {string} query - String to search
   */
   updateQuery = query => {
-    this.setState({ query: query.trim() });
-    let showingBooks;
-    if (query) {
-      const match = new RegExp(escapeRegExp(query), "i");
-      showingBooks = BooksAPI.search(query, 20).then(books =>
-        this.setState({ response: books })
-      );
-    }
-    console.log("showingBooks: ", showingBooks);
+    this.setState({ query: query });
+    BooksAPI.search(query)
+      .then(books => {
+        books.map(book => {
+          this.existBookInShelf(book, "currentlyReading")
+            ? (book.shelf = "currentlyReading")
+            : this.existBookInShelf(book, "wantToRead")
+              ? (book.shelf = "wantToRead")
+              : this.existBookInShelf(book, "read")
+                ? (book.shelf = "read")
+                : (book.shelf = "none");
+        });
+        this.setState({ response: books });
+      })
+      .catch(error => {
+        console.log("No match!! ", error);
+        this.setState({ response: [] });
+      });
   };
 
   /**
@@ -204,8 +253,7 @@ class BooksApp extends React.Component {
               <div className="open-search">
                 <Link
                   to={{
-                    pathname: "/search",
-                    search: "?sort=name"
+                    pathname: "/search"
                   }}
                 >
                   Add a book
@@ -237,17 +285,20 @@ class BooksApp extends React.Component {
                 <div className="clear-search" onClick={this.clearQuery} />
               </div>
               <div className="search-books-results">
-                <ol className="books-grid">
-                  {this.state.response.length > 0 ? (
-                    this.state.response.map(book => (
-                      <li key={book.id}>
-                        <Book book={book} moveTo={this.handleChange} />
-                      </li>
-                    ))
-                  ) : (
-                    <p>There are not match</p>
-                  )}
-                </ol>
+                {this.state.response && (
+                  <div>
+                    <p style={{ textAlign: "center" }}>
+                      {this.state.response.length} books
+                    </p>
+                    <ol className="books-grid">
+                      {this.state.response.map(book => (
+                        <li key={book.id}>
+                          <Book book={book} moveTo={this.adquireBook} />
+                        </li>
+                      ))}
+                    </ol>
+                  </div>
+                )}
               </div>
             </div>
           )}
