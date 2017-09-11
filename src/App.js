@@ -24,6 +24,8 @@ import Book from "./Book";
 * @method removeBook        - remove a book from a shelf
 * @method addBook           - add book to a shelf
 * @method handleChange      - handler to change books from a shelf to another
+* @method updateQuery       - to search a book with BooksAPI
+* @method clearQuery        - clear search parameters 
 */
 
 class BooksApp extends React.Component {
@@ -141,7 +143,8 @@ class BooksApp extends React.Component {
   /**
   * @function
   * @name updateQuery
-  *
+  * Get the query and use itt to seach books with the BooksAPI
+  * @param {string} query - String to search
   */
   updateQuery = query => {
     this.setState({ query: query.trim() });
@@ -153,6 +156,18 @@ class BooksApp extends React.Component {
       );
     }
     console.log("showingBooks: ", showingBooks);
+  };
+
+  /**
+  * @function
+  * @name clearQuery
+  * Reset search parameters
+  */
+  clearQuery = () => {
+    this.setState({
+      query: "",
+      response: []
+    });
   };
 
   render() {
@@ -219,6 +234,7 @@ class BooksApp extends React.Component {
                     placeholder="Search by title or author"
                   />
                 </div>
+                <div className="clear-search" onClick={this.clearQuery} />
               </div>
               <div className="search-books-results">
                 <ol className="books-grid">
