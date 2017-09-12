@@ -3,6 +3,7 @@ import * as BooksAPI from "./BooksAPI";
 import { Route, Link } from "react-router-dom";
 import escapeRegExp from "escape-string-regexp";
 import "./App.css";
+import "./Search.css";
 import Shelf from "./Shelf";
 import Book from "./Book";
 
@@ -292,7 +293,7 @@ class BooksApp extends React.Component {
                     </p>
                     <ol className="books-grid">
                       {this.state.response.map(book => (
-                        <li key={book.id}>
+                        <li key={book.id} className={book.shelf}>
                           <Book book={book} moveTo={this.adquireBook} />
                         </li>
                       ))}
