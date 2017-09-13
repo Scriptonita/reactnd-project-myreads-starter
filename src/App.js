@@ -1,12 +1,10 @@
 import React from "react";
 import * as BooksAPI from "./BooksAPI";
 import { Route, Link } from "react-router-dom";
-import "./App.css";
-import "./Search.css";
 import Reads from "./Reads";
 import Search from "./Search";
-
-import Book from "./Book";
+import "./css/App.css";
+import "./css/Search.css";
 
 /** @Class BooksApp
 *

@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "./App.css";
-import "./Search.css";
+import "./css/App.css";
+import "./css/Search.css";
 import Book from "./Book";
 
 const Search = ({ query, response, adquireBook, clearQuery, updateQuery }) => {
