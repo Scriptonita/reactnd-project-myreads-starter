@@ -1,10 +1,11 @@
 import React from "react";
 import * as BooksAPI from "./BooksAPI";
 import { Route, Link } from "react-router-dom";
-import escapeRegExp from "escape-string-regexp";
 import "./App.css";
 import "./Search.css";
-import Shelf from "./Shelf";
+import Reads from "./Reads";
+import Search from "./Search";
+
 import Book from "./Book";
 
 /** @Class BooksApp
@@ -235,96 +236,25 @@ class BooksApp extends React.Component {
           exact
           path="/"
           render={() => (
-            <div className="list-books">
-              <div className="list-books-title">
-                <h1>MyReads</h1>
-              </div>
-              <div className="list-books-content">
-                <div>
-                  <Shelf
-                    title="Currently Reading"
-                    books={this.state.current}
-                    handleChange={this.handleChange}
-                  />
-                  <Shelf
-                    title="Want to Read"
-                    books={this.state.want}
-                    handleChange={this.handleChange}
-                  />
-                  <Shelf
-                    title="Read"
-                    books={this.state.read}
-                    handleChange={this.handleChange}
-                  />
-                </div>
-              </div>
-              <div className="open-search">
-                <Link
-                  to={{
-                    pathname: "/search"
-                  }}
-                >
-                  Add a book
-                </Link>
-              </div>
-            </div>
+            <Reads
+              current={this.state.current}
+              want={this.state.want}
+              read={this.state.read}
+              handleChange={this.handleChange}
+            />
           )}
         />
         <Route
           key="search"
           path="/search"
           render={() => (
-            <div className="search-books">
-              <div className="search-books-bar">
-                <Link
-                  to={{
-                    pathname: "/"
-                  }}
-                  className="close-search"
-                  onClick={this.clearQuery}
-                />
-                <div className="search-books-input-wrapper">
-                  <input
-                    type="text"
-                    value={this.state.query}
-                    onChange={e => this.updateQuery(e.target.value)}
-                    placeholder="Search by title or author"
-                  />
-                </div>
-                <div className="clear-search" onClick={this.clearQuery} />
-              </div>
-              <div className="search-books-results">
-                {this.state.response && (
-                  <div>
-                    <p style={{ textAlign: "center" }}>
-                      {this.state.response.length} books
-                    </p>
-                    <div className="books-grid" style={{ textAlign: "center" }}>
-                      <div
-                        className="currentlyReading"
-                        style={{ width: "30%" }}
-                      >
-                        Currently Reading
-                      </div>
-                      <div className="wantToRead" style={{ width: "30%" }}>
-                        Want to Read
-                      </div>
-                      <div className="read" style={{ width: "30%" }}>
-                        Read
-                      </div>
-                    </div>
-                    <br />
-                    <ol className="books-grid">
-                      {this.state.response.map(book => (
-                        <li key={book.id} id={book.id} className={book.shelf}>
-                          <Book book={book} moveTo={this.adquireBook} />
-                        </li>
-                      ))}
-                    </ol>
-                  </div>
-                )}
-              </div>
-            </div>
+            <Search
+              query={this.state.query}
+              response={this.state.response}
+              adquireBook={this.adquireBook}
+              clearQuery={this.clearQuery}
+              updateQuery={this.updateQuery}
+            />
           )}
         />
       </div>
