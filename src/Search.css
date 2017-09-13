@@ -12,6 +12,7 @@
     white
   ); /* Firefox 3.6 to 15 */
   background: radial-gradient(circle, #ff1111, white); /* Standard syntax */
+  border-radius: 5px;
 }
 .wantToRead {
   background: green;
@@ -27,6 +28,7 @@
     white
   ); /* Firefox 3.6 to 15 */
   background: radial-gradient(circle, #11ff11, white); /* Standard syntax */
+  border-radius: 5px;
 }
 .read {
   background: blue;
@@ -42,4 +44,5 @@
     white
   ); /* Firefox 3.6 to 15 */
   background: radial-gradient(circle, #1111ff, white); /* Standard syntax */
+  border-radius: 5px;
 }

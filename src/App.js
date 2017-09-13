@@ -145,16 +145,23 @@ class BooksApp extends React.Component {
   /**
   * @function
   * @name adquireBook
-  * Add a book from BooksAPI.search to a shelf
+  * Add a book from BooksAPI.search to a shelf or move to another shelf from search
   * @param {object} book  - A book to add
   * @param {string} shelf - The shelf where add the book
   */
   adquireBook = (book, shelf) => {
     console.log("Shelf to adquire book: " + shelf);
-    this.addBook(book, shelf);
-    BooksAPI.update(book, shelf)
-      .then(result => console.log("Books Updated: ", result))
-      .catch(error => console.log("There was a problem: ", error));
+    document.getElementById(book.id).classList.remove(book.shelf);
+    if (book.shelf === "none") {
+      this.addBook(book, shelf);
+      BooksAPI.update(book, shelf)
+        .then(result => console.log("Books Updated: ", result))
+        .catch(error => console.log("There was a problem: ", error));
+    } else {
+      //document.getElementById(book.id).classList.remove(book.shelf);
+      this.handleChange(book, shelf);
+    }
+    document.getElementById(book.id).classList.add(shelf);
   };
 
   /**
@@ -274,6 +281,7 @@ class BooksApp extends React.Component {
                     pathname: "/"
                   }}
                   className="close-search"
+                  onClick={this.clearQuery}
                 />
                 <div className="search-books-input-wrapper">
                   <input
@@ -291,9 +299,24 @@ class BooksApp extends React.Component {
                     <p style={{ textAlign: "center" }}>
                       {this.state.response.length} books
                     </p>
+                    <div className="books-grid" style={{ textAlign: "center" }}>
+                      <div
+                        className="currentlyReading"
+                        style={{ width: "30%" }}
+                      >
+                        Currently Reading
+                      </div>
+                      <div className="wantToRead" style={{ width: "30%" }}>
+                        Want to Read
+                      </div>
+                      <div className="read" style={{ width: "30%" }}>
+                        Read
+                      </div>
+                    </div>
+                    <br />
                     <ol className="books-grid">
                       {this.state.response.map(book => (
-                        <li key={book.id} className={book.shelf}>
+                        <li key={book.id} id={book.id} className={book.shelf}>
                           <Book book={book} moveTo={this.adquireBook} />
                         </li>
                       ))}
