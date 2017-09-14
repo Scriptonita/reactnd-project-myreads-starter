@@ -1,6 +1,6 @@
 import React from "react";
 import * as BooksAPI from "./BooksAPI";
-import { Route, Link } from "react-router-dom";
+import { Route } from "react-router-dom";
 import Reads from "./Reads";
 import Search from "./Search";
 import "./css/App.css";
@@ -19,7 +19,6 @@ import "./css/Search.css";
 * @param {array} current  -   books from the Currently Reading shelf
 * @param {array} want     -   books from the Want to read shelf
 * @param {array} read     -   books from the Read shelf
-* @param {string} query   -   Input string to search a book
 * @method componentDidMount - receive all the books from application
 * @method removeBook        - remove a book from a shelf
 * @method addBook           - add book to a shelf
@@ -32,9 +31,7 @@ class BooksApp extends React.Component {
   state = {
     current: [], // Books for Currently Reading
     want: [], // Books for Want to Reading
-    read: [], // Books for Read,
-    query: "",
-    response: []
+    read: [] // Books for Read
   };
 
   /**
@@ -187,45 +184,6 @@ class BooksApp extends React.Component {
     return found;
   };
 
-  /**
-  * @function
-  * @name updateQuery
-  * Get the query and use it to seach books with the BooksAPI
-  * @param {string} query - String to search
-  */
-  updateQuery = query => {
-    this.setState({ query: query });
-    BooksAPI.search(query)
-      .then(books => {
-        books.map(book => {
-          this.existBookInShelf(book, "currentlyReading")
-            ? (book.shelf = "currentlyReading")
-            : this.existBookInShelf(book, "wantToRead")
-              ? (book.shelf = "wantToRead")
-              : this.existBookInShelf(book, "read")
-                ? (book.shelf = "read")
-                : (book.shelf = "none");
-        });
-        this.setState({ response: books });
-      })
-      .catch(error => {
-        console.log("No match!! ", error);
-        this.setState({ response: [] });
-      });
-  };
-
-  /**
-  * @function
-  * @name clearQuery
-  * Reset search parameters
-  */
-  clearQuery = () => {
-    this.setState({
-      query: "",
-      response: []
-    });
-  };
-
   render() {
     return (
       <div className="app">
@@ -247,11 +205,8 @@ class BooksApp extends React.Component {
           path="/search"
           render={() => (
             <Search
-              query={this.state.query}
-              response={this.state.response}
               adquireBook={this.adquireBook}
-              clearQuery={this.clearQuery}
-              updateQuery={this.updateQuery}
+              existBookInShelf={this.existBookInShelf}
             />
           )}
         />

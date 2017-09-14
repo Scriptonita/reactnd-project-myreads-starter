@@ -1,10 +1,27 @@
 import React from "react";
-import "./css/App.css";
 import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
 import Shelf from "./Shelf";
-import Book from "./Book";
+import "./css/App.css";
+
+/** @function
+* @name Reads
+* Show the books in each shelf
+*
+*   @param {array} current - Books in the Currently Reading Shelf
+*   @param {array} want - Books in the Want to Read Shelf
+*   @param {array} read - Books in the Read Shelf
+*   @param {function} handleChange - function to change a book from a shelf to another
+*/
 
 const Reads = ({ current, want, read, handleChange }) => {
+  Reads.propTypes = {
+    current: PropTypes.array.isRequired,
+    want: PropTypes.array.isRequired,
+    read: PropTypes.array.isRequired,
+    handleChange: PropTypes.func.isRequired
+  };
+
   return (
     <div className="list-books">
       <div className="list-books-title">
