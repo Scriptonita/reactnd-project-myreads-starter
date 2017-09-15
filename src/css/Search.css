@@ -1,48 +1,24 @@
 .currentlyReading {
   background: red;
-  background: -webkit-radial-gradient(circle, #ff1111, white); /* Safari */
-  background: -o-radial-gradient(
-    circle,
-    #ff1111,
-    white
-  ); /* Opera 11.6 to 12.0 */
-  background: -moz-radial-gradient(
-    circle,
-    #ff1111,
-    white
-  ); /* Firefox 3.6 to 15 */
-  background: radial-gradient(circle, #ff1111, white); /* Standard syntax */
+  background: -webkit-radial-gradient(circle, #f11, white); /* Safari */
+  background: -o-radial-gradient(circle, #f11, white); /* Opera 11.6 to 12.0 */
+  background: -moz-radial-gradient(circle, #f11, white); /* Firefox 3.6 to 15 */
+  background: radial-gradient(circle, #f11, white); /* Standard syntax */
   border-radius: 5px;
 }
 .wantToRead {
   background: green;
-  background: -webkit-radial-gradient(circle, #11ff11, white); /* Safari */
-  background: -o-radial-gradient(
-    circle,
-    #11ff11,
-    white
-  ); /* Opera 11.6 to 12.0 */
-  background: -moz-radial-gradient(
-    circle,
-    #11ff11,
-    white
-  ); /* Firefox 3.6 to 15 */
-  background: radial-gradient(circle, #11ff11, white); /* Standard syntax */
+  background: -webkit-radial-gradient(circle, #1f1, white); /* Safari */
+  background: -o-radial-gradient(circle, #1f1, white); /* Opera 11.6 to 12.0 */
+  background: -moz-radial-gradient(circle, #1f1, white); /* Firefox 3.6 to 15 */
+  background: radial-gradient(circle, #1f1, white); /* Standard syntax */
   border-radius: 5px;
 }
 .read {
   background: blue;
-  background: -webkit-radial-gradient(circle, #1111ff, white); /* Safari */
-  background: -o-radial-gradient(
-    circle,
-    #1111ff,
-    white
-  ); /* Opera 11.6 to 12.0 */
-  background: -moz-radial-gradient(
-    circle,
-    #1111ff,
-    white
-  ); /* Firefox 3.6 to 15 */
-  background: radial-gradient(circle, #1111ff, white); /* Standard syntax */
+  background: -webkit-radial-gradient(circle, #11f, white); /* Safari */
+  background: -o-radial-gradient(circle, #11f, white); /* Opera 11.6 to 12.0 */
+  background: -moz-radial-gradient(circle, #11f, white); /* Firefox 3.6 to 15 */
+  background: radial-gradient(circle, #11f, white); /* Standard syntax */
   border-radius: 5px;
 }
