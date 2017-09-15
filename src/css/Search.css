@@ -1,3 +1,15 @@
+/**
+* The names of the class not follow the Udacity Style Guides
+*     currentlyReading --> currently-reading
+* It's because the classnames corresponds directly to a property of the book
+* get from BooksAPI
+*     book.shelf -> currentlyReading
+*     book.shelf -> wantToRead
+*     book.shelf -> read
+* In search, if a book has one of this property then the div container get this class
+* to fill the background
+*/
+
 .currentlyReading {
   background: red;
   background: -webkit-radial-gradient(circle, #f11, white); /* Safari */
