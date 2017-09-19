@@ -5,7 +5,7 @@ import "./css/App.css";
 
 /** @function
 * @name Shelf
-* Represent a shelf
+* @description - Represent a shelf
 * There are 3 sections:
 *   Currently Reading: receive book from this.props,current
 *   Want to read: receive books from this.props.want

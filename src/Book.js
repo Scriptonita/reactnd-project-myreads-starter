@@ -4,7 +4,7 @@ import "./css/App.css";
 
 /** @function
 * @name Book
-* Represent a Book
+* @description - Represent a Book
 *
 *   @param {object} book - book description
 *   @param {function} moveTo - function to change the section

@@ -6,7 +6,7 @@ import "./css/App.css";
 
 /** @function
 * @name Reads
-* Show the books in each shelf
+* @description - Show the books in each shelf
 *
 *   @param {array} current - Books in the Currently Reading Shelf
 *   @param {array} want - Books in the Want to Read Shelf

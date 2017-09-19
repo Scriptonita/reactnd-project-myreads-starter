@@ -8,7 +8,7 @@ import Book from "./Book";
 
 /** @function
 * @name Search
-* Show the books that match with the input
+* @description - Show the books that match with the input
 *
 *   @param {string} query - Input string to search
 *   @param {array} response - list of books that match with input
@@ -26,7 +26,7 @@ class Search extends React.Component {
   /**
   * @function
   * @name updateQuery
-  * Get the query and use it to seach books with the BooksAPI
+  * @description - Get the query and use it to seach books with the BooksAPI
   * @param {string} query - String to search
   */
   updateQuery = query => {
@@ -54,7 +54,7 @@ class Search extends React.Component {
   /**
   * @function
   * @name clearQuery
-  * Reset search parameters
+  * @description - Reset search parameters
   */
   clearQuery = () => {
     this.setState({

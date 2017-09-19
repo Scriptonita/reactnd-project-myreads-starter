@@ -8,8 +8,8 @@ import "./css/Search.css";
 
 /** @Class BooksApp
 *
-* @classdesc BooksApp is the main class of application.
-* Route the app to home or to search
+* @classdesc - BooksApp is the main class of application.
+* @description - Route the app to home or to search
 *   - In home the app list the books for each shelf
 *     + Currently Reading
 *     + Want to Read
@@ -37,7 +37,7 @@ class BooksApp extends React.Component {
   /**
   * @function
   * @name componentDidMount
-  * Use BooksAPI to get the entire collection of books in shelfs and
+  * @description - Use BooksAPI to get the entire collection of books in shelfs and
   * put each book in the respective virtual shelf
   */
   componentDidMount() {
@@ -64,7 +64,7 @@ class BooksApp extends React.Component {
   /**
   * @function
   * @name removeBook
-  * Remove book from actual section in local collection
+  * @description - Remove book from actual section in local collection
   * @param {object} book  - A book that we want to remove from a shelf
   * @param {string} shelf - The name of shelf where is the book
   */
@@ -94,7 +94,7 @@ class BooksApp extends React.Component {
   /**
   * @function
   * @name addBook
-  * Add a book to a section in local collection
+  * @description - Add a book to a section in local collection
   * @param {object} book  - A book that we want to add to a shelf
   * @param {string} shelf - The name of shelf where add the book
   */
@@ -122,7 +122,7 @@ class BooksApp extends React.Component {
   /**
   * @function
   * @name handleChange
-  * Handler to change the books from a shelf to another in local collection
+  * @description - Handler to change the books from a shelf to another in local collection
   * and update the book in the server
   * @param {object} book  - A book that we want to remove from a shelf
   * @param {string} shelf - The name of shelf where is the book
@@ -141,7 +141,7 @@ class BooksApp extends React.Component {
   /**
   * @function
   * @name adquireBook
-  * Add a book from BooksAPI.search to a shelf or move to another shelf from search
+  * @description - Add a book from BooksAPI.search to a shelf or move to another shelf from search
   * @param {object} book  - A book to add
   * @param {string} shelf - The shelf where add the book
   */
@@ -163,7 +163,7 @@ class BooksApp extends React.Component {
   /**
   * @function
   * @name existBookInShelf
-  * Check if a book is in a shelf
+  * @description - Check if a book is in a shelf
   * @param {object} book  - A book to check
   * @param {string} shelf - The shelf where check
   */

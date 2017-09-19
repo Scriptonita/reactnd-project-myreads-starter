@@ -2,7 +2,7 @@
 * The names of the class not follow the Udacity Style Guides
 *     currentlyReading --> currently-reading
 * It's because the classnames corresponds directly to a property of the book
-* get from BooksAPI
+* gotten from BooksAPI
 *     book.shelf -> currentlyReading
 *     book.shelf -> wantToRead
 *     book.shelf -> read
