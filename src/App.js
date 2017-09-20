@@ -19,6 +19,7 @@ import "./css/Search.css";
 * @param {array} current  -   books from the Currently Reading shelf
 * @param {array} want     -   books from the Want to read shelf
 * @param {array} read     -   books from the Read shelf
+* @param {array} books    -   Books collection
 * @method componentDidMount - receive all the books from application
 * @method removeBook        - remove a book from a shelf
 * @method addBook           - add book to a shelf
@@ -31,7 +32,8 @@ class BooksApp extends React.Component {
   state = {
     current: [], // Books for Currently Reading
     want: [], // Books for Want to Reading
-    read: [] // Books for Read
+    read: [], // Books for Read
+    books: []
   };
 
   /**
@@ -40,7 +42,7 @@ class BooksApp extends React.Component {
   * @description - Use BooksAPI to get the entire collection of books in shelfs and
   * put each book in the respective virtual shelf
   */
-  componentDidMount() {
+  componentDidMount22() {
     let current = [],
       want = [],
       read = [];
@@ -58,6 +60,12 @@ class BooksApp extends React.Component {
         want: want,
         read: read
       });
+    });
+  }
+
+  componentDidMount() {
+    BooksAPI.getAll().then(books => {
+      this.setState({ books });
     });
   }
 
@@ -127,7 +135,7 @@ class BooksApp extends React.Component {
   * @param {object} book  - A book that we want to remove from a shelf
   * @param {string} shelf - The name of shelf where is the book
   */
-  handleChange = (book, shelf) => {
+  handleChangess = (book, shelf) => {
     /** changes in local collection */
     this.removeBook(book, shelf);
     book.shelf = shelf;
@@ -136,6 +144,17 @@ class BooksApp extends React.Component {
     BooksAPI.update(book, shelf)
       .then(result => console.log("Books Updated: ", result))
       .catch(error => console.log("There was a problem: ", error));
+  };
+
+  handleChange = (book, shelf) => {
+    if (book.shelf !== shelf) {
+      BooksAPI.update(book, shelf).then(() => {
+        book.shelf = shelf;
+        this.setState(state => ({
+          books: state.books.filter(b => b.id !== book.id).concat([book])
+        }));
+      });
+    }
   };
 
   /**
@@ -192,12 +211,7 @@ class BooksApp extends React.Component {
           exact
           path="/"
           render={() => (
-            <Reads
-              current={this.state.current}
-              want={this.state.want}
-              read={this.state.read}
-              handleChange={this.handleChange}
-            />
+            <Reads books={this.state.books} handleChange={this.handleChange} />
           )}
         />
         <Route

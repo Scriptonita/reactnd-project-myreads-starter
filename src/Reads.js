@@ -14,11 +14,9 @@ import "./css/App.css";
 *   @param {function} handleChange - function to change a book from a shelf to another
 */
 
-const Reads = ({ current, want, read, handleChange }) => {
+const Reads = ({ books, handleChange }) => {
   Reads.propTypes = {
-    current: PropTypes.array.isRequired,
-    want: PropTypes.array.isRequired,
-    read: PropTypes.array.isRequired,
+    books: PropTypes.array.isRequired,
     handleChange: PropTypes.func.isRequired
   };
 
@@ -31,16 +29,20 @@ const Reads = ({ current, want, read, handleChange }) => {
         <div>
           <Shelf
             title="Currently Reading"
-            books={current}
+            books={books.filter(b => b.shelf === "currentlyReading")}
             handleChange={handleChange}
           />
 
           <Shelf
             title="Want to Read"
-            books={want}
+            books={books.filter(b => b.shelf === "wantToRead")}
             handleChange={handleChange}
           />
-          <Shelf title="Read" books={read} handleChange={handleChange} />
+          <Shelf
+            title="Read"
+            books={books.filter(b => b.shelf === "read")}
+            handleChange={handleChange}
+          />
         </div>
       </div>
       <div className="open-search">
