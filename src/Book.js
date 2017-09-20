@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import "./css/App.css";
+import "./css/Book.css";
 
 /** @function
 * @name Book
@@ -57,14 +58,7 @@ const Book = ({ book, moveTo }) => {
           </select>
         </div>
       </div>
-      <div
-        style={{
-          backgroundColor: "white",
-          padding: "3px",
-          borderRadius: "5px",
-          marginTop: "5px"
-        }}
-      >
+      <div className="book-box">
         <div className="book-title">{book.title}</div>
         <div className="book-authors">{book.authors.map(author => author)}</div>
       </div>
