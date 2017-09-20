@@ -52,10 +52,19 @@ class Search extends React.Component {
 
   /**
   * @function
-  * @name omponentWillUnmount
-  * @description - Reset search parameters
+  * @name componentWillUnmount
+  * @description - Call clearQuery to reset search parameters
   */
   componentWillUnmount = () => {
+    this.clearQuery();
+  };
+
+  /**
+  * @function
+  * @name clearQuery
+  * @description - Reset search parameters
+  */
+  clearQuery = () => {
     this.setState({
       query: "",
       response: []
@@ -71,7 +80,6 @@ class Search extends React.Component {
               pathname: "/"
             }}
             className="close-search"
-            onClick={this.clearQuery}
           />
           <div className="search-books-input-wrapper">
             <input
@@ -81,7 +89,7 @@ class Search extends React.Component {
               placeholder="Search by title or author"
             />
           </div>
-          <div className="clear-search" />
+          <div className="clear-search" onClick={this.clearQuery} />
         </div>
         <div className="search-books-results">
           {this.state.response && (
