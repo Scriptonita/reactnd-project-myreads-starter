@@ -17,11 +17,6 @@ import "./css/App.css";
 */
 
 const Shelf = ({ title, books, handleChange }) => {
-  Shelf.propTypes = {
-    title: PropTypes.string.isRequired,
-    books: PropTypes.array.isRequired,
-    handleChange: PropTypes.func.isRequired
-  };
   return (
     <div className="bookshelf">
       <h2 className="bookshelf-title">
@@ -42,6 +37,12 @@ const Shelf = ({ title, books, handleChange }) => {
       )}
     </div>
   );
+};
+
+Shelf.propTypes = {
+  title: PropTypes.string.isRequired,
+  books: PropTypes.array.isRequired,
+  handleChange: PropTypes.func.isRequired
 };
 
 export default Shelf;

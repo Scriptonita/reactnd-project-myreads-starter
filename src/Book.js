@@ -11,10 +11,6 @@ import "./css/Book.css";
 */
 
 const Book = ({ book, moveTo }) => {
-  Book.propTypes = {
-    book: PropTypes.object.isRequired,
-    moveTo: PropTypes.func.isRequired
-  };
   return (
     <div className="book">
       <div className="book-top">
@@ -63,6 +59,11 @@ const Book = ({ book, moveTo }) => {
       </div>
     </div>
   );
+};
+
+Book.propTypes = {
+  book: PropTypes.object.isRequired,
+  moveTo: PropTypes.func.isRequired
 };
 
 export default Book;

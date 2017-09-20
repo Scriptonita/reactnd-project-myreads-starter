@@ -15,11 +15,6 @@ import "./css/App.css";
 */
 
 const Reads = ({ books, handleChange }) => {
-  Reads.propTypes = {
-    books: PropTypes.array.isRequired,
-    handleChange: PropTypes.func.isRequired
-  };
-
   return (
     <div className="list-books">
       <div className="list-books-title">
@@ -56,6 +51,11 @@ const Reads = ({ books, handleChange }) => {
       </div>
     </div>
   );
+};
+
+Reads.propTypes = {
+  books: PropTypes.array.isRequired,
+  handleChange: PropTypes.func.isRequired
 };
 
 export default Reads;
