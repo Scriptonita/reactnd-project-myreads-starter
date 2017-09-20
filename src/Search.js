@@ -92,16 +92,10 @@ class Search extends React.Component {
               <p style={{ textAlign: "center" }}>
                 {this.state.response.length} books
               </p>
-              <div className="books-grid" style={{ textAlign: "center" }}>
-                <div className="currentlyReading" style={{ width: "30%" }}>
-                  Currently Reading
-                </div>
-                <div className="wantToRead" style={{ width: "30%" }}>
-                  Want to Read
-                </div>
-                <div className="read" style={{ width: "30%" }}>
-                  Read
-                </div>
+              <div className="books-grid">
+                <div className="currentlyReading legend">Currently Reading</div>
+                <div className="wantToRead legend">Want to Read</div>
+                <div className="read legend">Read</div>
               </div>
               <br />
               <ol className="books-grid">

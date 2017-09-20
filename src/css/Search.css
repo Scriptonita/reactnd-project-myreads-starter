@@ -34,3 +34,8 @@
   background: radial-gradient(circle, #11f, white); /* Standard syntax */
   border-radius: 5px;
 }
+
+.legend {
+  width: 30%;
+  text-align: center;
+}

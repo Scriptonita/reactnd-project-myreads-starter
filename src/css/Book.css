@@ -1,6 +1,6 @@
 .book-box {
-  backgroundcolor: white;
+  background-color: white;
   padding: 3px;
-  borderradius: 5px;
-  margintop: 5px;
+  border-radius: 5px;
+  margin-top: 5px;
 }
