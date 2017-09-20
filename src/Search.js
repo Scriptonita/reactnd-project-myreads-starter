@@ -13,8 +13,7 @@ import Book from "./Book";
 *   @param {string} query - Input string to search
 *   @param {array} response - list of books that match with input
 *   @param {function} clearQuery - Reset query and response
-*   @param {function} adquireBook -
-*   @param {function} updateQuery -
+*   @param {function} updateQuery - Provide functionallity to search books
 */
 
 class Search extends React.Component {
@@ -25,8 +24,19 @@ class Search extends React.Component {
 
   /**
   * @function
+  * @name componentWillUnmount
+  * @description - Call clearQuery to reset search parameters
+  */
+  componentWillUnmount = () => {
+    this.clearQuery();
+  };
+
+  /**
+  * @function
   * @name updateQuery
-  * @description - Get the query and use it to seach books with the BooksAPI
+  * @description - Get the query and use it to seach books with the BooksAPI.
+  * Check if the books are in shelf, in this case fill the background with
+  * the color of the shelf.
   * @param {string} query - String to search
   */
   updateQuery = query => {
@@ -42,15 +52,6 @@ class Search extends React.Component {
         console.log("No match!! ", error);
         this.setState({ response: [] });
       });
-  };
-
-  /**
-  * @function
-  * @name componentWillUnmount
-  * @description - Call clearQuery to reset search parameters
-  */
-  componentWillUnmount = () => {
-    this.clearQuery();
   };
 
   /**

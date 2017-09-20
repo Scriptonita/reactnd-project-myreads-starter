@@ -73,7 +73,9 @@ class BooksApp extends React.Component {
     if (book.shelf === "none") {
       //this.addBook(book, shelf);
       book.shelf = shelf;
-      this.state.books.concat([book]);
+      this.setState(state => ({
+        books: state.books.concat([book])
+      }));
       BooksAPI.update(book, shelf)
         .then(result => console.log("Books Updated: ", result))
         .catch(error => console.log("There was a problem: ", error));
