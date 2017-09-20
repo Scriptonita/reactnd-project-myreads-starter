@@ -13,7 +13,6 @@ import Book from "./Book";
 *   @param {string} query - Input string to search
 *   @param {array} response - list of books that match with input
 *   @param {function} adquireBook -
-*   @param {function} clearQuery -
 *   @param {function} updateQuery -
 */
 
@@ -53,10 +52,10 @@ class Search extends React.Component {
 
   /**
   * @function
-  * @name clearQuery
+  * @name omponentWillUnmount
   * @description - Reset search parameters
   */
-  clearQuery = () => {
+  componentWillUnmount = () => {
     this.setState({
       query: "",
       response: []
@@ -82,7 +81,7 @@ class Search extends React.Component {
               placeholder="Search by title or author"
             />
           </div>
-          <div className="clear-search" onClick={this.clearQuery} />
+          <div className="clear-search" />
         </div>
         <div className="search-books-results">
           {this.state.response && (

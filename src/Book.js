@@ -6,9 +6,8 @@ import "./css/Book.css";
 /** @function
 * @name Book
 * @description - Represent a Book
-*
-*   @param {object} book - book description
-*   @param {function} moveTo - function to change the section
+* @param {object} book - book description
+* @param {function} moveTo - function to change the section
 */
 
 const Book = ({ book, moveTo }) => {
