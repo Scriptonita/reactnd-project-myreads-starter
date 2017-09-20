@@ -12,6 +12,7 @@ import Book from "./Book";
 *
 *   @param {string} query - Input string to search
 *   @param {array} response - list of books that match with input
+*   @param {function} clearQuery - Reset query and response
 *   @param {function} adquireBook -
 *   @param {function} updateQuery -
 */
@@ -33,14 +34,7 @@ class Search extends React.Component {
     BooksAPI.search(query)
       .then(books => {
         books.map(book => {
-          this.props.existBookInShelf(book, "currentlyReading")
-            ? (book.shelf = "currentlyReading")
-            : this.props.existBookInShelf(book, "wantToRead")
-              ? (book.shelf = "wantToRead")
-              : this.props.existBookInShelf(book, "read")
-                ? (book.shelf = "read")
-                : (book.shelf = "none");
-          return true;
+          book.shelf = this.props.existBookInShelf(book);
         });
         this.setState({ response: books });
       })

@@ -16,23 +16,16 @@ import "./css/Search.css";
 *     + Read
 *   - In search we can search another books
 *
-* @param {array} current  -   books from the Currently Reading shelf
-* @param {array} want     -   books from the Want to read shelf
-* @param {array} read     -   books from the Read shelf
 * @param {array} books    -   Books collection
 * @method componentDidMount - receive all the books from application
-* @method removeBook        - remove a book from a shelf
-* @method addBook           - add book to a shelf
 * @method handleChange      - handler to change books from a shelf to another
+* @method adquireBooks      - handler to add books from search
 * @method updateQuery       - to search a book with BooksAPI
-* @method clearQuery        - clear search parameters
+* @method existBookInShelf  - check if exist a book in books
 */
 
 class BooksApp extends React.Component {
   state = {
-    current: [], // Books for Currently Reading
-    want: [], // Books for Want to Reading
-    read: [], // Books for Read
     books: []
   };
 
@@ -42,89 +35,10 @@ class BooksApp extends React.Component {
   * @description - Use BooksAPI to get the entire collection of books in shelfs and
   * put each book in the respective virtual shelf
   */
-  componentDidMount22() {
-    let current = [],
-      want = [],
-      read = [];
-    /** Map the books collection and send each book to section */
-    BooksAPI.getAll().then(books => {
-      books.map(
-        book =>
-          book.shelf === "currentlyReading"
-            ? current.push(book)
-            : book.shelf === "wantToRead" ? want.push(book) : read.push(book) // Shelf Is "Read"
-      );
-      /** Set states with books */
-      this.setState({
-        current: current,
-        want: want,
-        read: read
-      });
-    });
-  }
-
   componentDidMount() {
     BooksAPI.getAll().then(books => {
       this.setState({ books });
     });
-  }
-
-  /**
-  * @function
-  * @name removeBook
-  * @description - Remove book from actual section in local collection
-  * @param {object} book  - A book that we want to remove from a shelf
-  * @param {string} shelf - The name of shelf where is the book
-  */
-  removeBook(book, shelf) {
-    switch (book.shelf) {
-      case "currentlyReading":
-        this.setState(state => ({
-          current: state.current.filter(b => b.id !== book.id)
-        }));
-        break;
-      case "wantToRead":
-        this.setState({
-          want: this.state.want.filter(b => b.id !== book.id)
-        });
-        break;
-      case "read":
-        this.setState(state => ({
-          read: state.read.filter(b => b.id !== book.id)
-        }));
-        break;
-      default:
-        console.log("Por Default");
-        break;
-    }
-  }
-
-  /**
-  * @function
-  * @name addBook
-  * @description - Add a book to a section in local collection
-  * @param {object} book  - A book that we want to add to a shelf
-  * @param {string} shelf - The name of shelf where add the book
-  */
-  addBook(book, shelf) {
-    switch (shelf) {
-      case "currentlyReading":
-        this.setState(state => ({
-          current: state.current.concat([book])
-        }));
-        break;
-      case "wantToRead":
-        this.setState(state => ({
-          want: state.want.concat([book])
-        }));
-        break;
-      case "read":
-        this.setState(state => ({
-          read: state.read.concat([book])
-        }));
-        break;
-      default:
-    }
   }
 
   /**
@@ -135,17 +49,6 @@ class BooksApp extends React.Component {
   * @param {object} book  - A book that we want to remove from a shelf
   * @param {string} shelf - The name of shelf where is the book
   */
-  handleChangess = (book, shelf) => {
-    /** changes in local collection */
-    this.removeBook(book, shelf);
-    book.shelf = shelf;
-    this.addBook(book, shelf);
-    /** Update Books collection in server */
-    BooksAPI.update(book, shelf)
-      .then(result => console.log("Books Updated: ", result))
-      .catch(error => console.log("There was a problem: ", error));
-  };
-
   handleChange = (book, shelf) => {
     if (book.shelf !== shelf) {
       BooksAPI.update(book, shelf).then(() => {
@@ -168,7 +71,9 @@ class BooksApp extends React.Component {
     console.log("Shelf to adquire book: " + shelf);
     document.getElementById(book.id).classList.remove(book.shelf);
     if (book.shelf === "none") {
-      this.addBook(book, shelf);
+      //this.addBook(book, shelf);
+      book.shelf = shelf;
+      this.state.books.concat([book]);
       BooksAPI.update(book, shelf)
         .then(result => console.log("Books Updated: ", result))
         .catch(error => console.log("There was a problem: ", error));
@@ -182,25 +87,15 @@ class BooksApp extends React.Component {
   /**
   * @function
   * @name existBookInShelf
-  * @description - Check if a book is in a shelf
+  * @description - Check if a book is in books
   * @param {object} book  - A book to check
-  * @param {string} shelf - The shelf where check
   */
-  existBookInShelf = (book, shelf) => {
-    let found = false;
-    switch (shelf) {
-      case "currentlyReading":
-        for (let b of this.state.current) if (b.id === book.id) found = true;
-        break;
-      case "wantToRead":
-        for (let b of this.state.want) if (b.id === book.id) found = true;
-        break;
-      case "read":
-        for (let b of this.state.read) if (b.id === book.id) found = true;
-        break;
-      default:
-    }
-    return found;
+  existBookInShelf = book => {
+    let shelf = "none";
+    this.state.books.map(b => {
+      if (b.id === book.id) shelf = b.shelf;
+    });
+    return shelf;
   };
 
   render() {
