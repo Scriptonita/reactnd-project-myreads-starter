@@ -17,10 +17,15 @@ import Book from "./Book";
 */
 
 class Search extends React.Component {
-  state = {
-    query: "",
-    response: []
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      query: "",
+      response: [],
+      loading: false
+    };
+    this.updateQuery = this.updateQuery.bind(this);
+  }
 
   /**
   * @function
@@ -39,19 +44,75 @@ class Search extends React.Component {
   * the color of the shelf.
   * @param {string} query - String to search
   */
-  updateQuery = query => {
-    this.setState({ query: query });
-    BooksAPI.search(query)
-      .then(books => {
-        books.map(book => {
-          book.shelf = this.props.existBookInShelf(book);
-        });
-        this.setState({ response: books });
-      })
-      .catch(error => {
-        console.log("No match!! ", error);
-        this.setState({ response: [] });
+  updateQuery(event) {
+    const query = event.target.value;
+    if (query) {
+      this.setState({
+        loading: true,
+        query: query
       });
+      BooksAPI.search(query, 20)
+        .then(books => {
+          if (books) {
+            books.map(book => {
+              book.shelf = this.props.existBookInShelf(book);
+            });
+            this.setState({
+              response: books,
+              loading: false
+            });
+          } else {
+            console.log("No books for that word");
+            this.setState({
+              loading: false
+            });
+          }
+        })
+        .catch(() => {
+          this.setState({
+            response: [],
+            loading: false
+          });
+        });
+    } else {
+      this.setState({
+        query: "",
+        response: [],
+        loading: false
+      });
+    }
+  }
+
+  updateQuerygg = event => {
+    const query = event.target.value;
+    this.setState({
+      query: query
+    });
+    console.log("Query: " + query);
+    if (query) {
+      BooksAPI.search(query, 20)
+        .then(books => {
+          books.map(book => {
+            book.shelf = this.props.existBookInShelf(book);
+            this.setState({
+              response: books
+            });
+          });
+        })
+        .catch(error => {
+          console.log("The query '" + query + "' do not match any result");
+          this.setState({
+            response: [],
+            loading: false
+          });
+        });
+    } else {
+      this.setState({
+        query: "",
+        response: [],
+        loading: false
+      });
+    }
   };
 
   /**
@@ -65,6 +126,10 @@ class Search extends React.Component {
       response: []
     });
   };
+
+  /*
+  onChange={e => this.updateQuery(e.target.value)}
+  */
 
   render() {
     return (
@@ -80,7 +145,7 @@ class Search extends React.Component {
             <input
               type="text"
               value={this.state.query}
-              onChange={e => this.updateQuery(e.target.value)}
+              onChange={this.updateQuery}
               placeholder="Search by title or author"
             />
           </div>
@@ -89,21 +154,32 @@ class Search extends React.Component {
         <div className="search-books-results">
           {this.state.response && (
             <div>
-              <p style={{ textAlign: "center" }}>
-                {this.state.response.length} books
-              </p>
               <div className="books-grid">
                 <div className="currentlyReading legend">Currently Reading</div>
                 <div className="wantToRead legend">Want to Read</div>
                 <div className="read legend">Read</div>
               </div>
               <br />
+              {!this.state.loading && (
+                <p style={{ textAlign: "center" }}>
+                  {this.state.response.length} books
+                </p>
+              )}
+
               <ol className="books-grid">
-                {this.state.response.map(book => (
-                  <li key={book.id} id={book.id} className={book.shelf}>
-                    <Book book={book} moveTo={this.props.adquireBook} />
-                  </li>
-                ))}
+                {this.state.loading && (
+                  <div>
+                    <img src="loading.gif" alt="loading" />
+                    <br />
+                    <p style={{ textAlign: "center" }}>LOADING</p>
+                  </div>
+                )}
+                {!this.state.loading &&
+                  this.state.response.map(book => (
+                    <li key={book.id} id={book.id} className={book.shelf}>
+                      <Book book={book} moveTo={this.props.adquireBook} />
+                    </li>
+                  ))}
               </ol>
             </div>
           )}

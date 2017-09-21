@@ -55,7 +55,9 @@ const Book = ({ book, moveTo }) => {
       </div>
       <div className="book-box">
         <div className="book-title">{book.title}</div>
-        <div className="book-authors">{book.authors.map(author => author)}</div>
+        <div className="book-authors">
+          {book.authors && book.authors.map(author => author)}
+        </div>
       </div>
     </div>
   );
