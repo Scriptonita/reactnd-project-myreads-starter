@@ -17,15 +17,11 @@ import Book from "./Book";
 */
 
 class Search extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      query: "",
-      response: [],
-      loading: false
-    };
-    this.updateQuery = this.updateQuery.bind(this);
-  }
+  state = {
+    query: "",
+    response: [],
+    loading: false
+  };
 
   /**
   * @function
@@ -44,7 +40,7 @@ class Search extends React.Component {
   * the color of the shelf.
   * @param {string} query - String to search
   */
-  updateQuery(event) {
+  updateQuery = event => {
     const query = event.target.value;
     if (query) {
       this.setState({
@@ -53,54 +49,15 @@ class Search extends React.Component {
       });
       BooksAPI.search(query, 20)
         .then(books => {
-          if (books) {
-            books.map(book => {
-              book.shelf = this.props.existBookInShelf(book);
-            });
-            this.setState({
-              response: books,
-              loading: false
-            });
-          } else {
-            console.log("No books for that word");
-            this.setState({
-              loading: false
-            });
-          }
-        })
-        .catch(() => {
+          books.map(book => {
+            return (book.shelf = this.props.existBookInShelf(book));
+          });
           this.setState({
-            response: [],
+            response: books,
             loading: false
           });
-        });
-    } else {
-      this.setState({
-        query: "",
-        response: [],
-        loading: false
-      });
-    }
-  }
-
-  updateQuerygg = event => {
-    const query = event.target.value;
-    this.setState({
-      query: query
-    });
-    console.log("Query: " + query);
-    if (query) {
-      BooksAPI.search(query, 20)
-        .then(books => {
-          books.map(book => {
-            book.shelf = this.props.existBookInShelf(book);
-            this.setState({
-              response: books
-            });
-          });
         })
-        .catch(error => {
-          console.log("The query '" + query + "' do not match any result");
+        .catch(() => {
           this.setState({
             response: [],
             loading: false

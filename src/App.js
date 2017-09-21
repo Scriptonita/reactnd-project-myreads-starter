@@ -95,7 +95,11 @@ class BooksApp extends React.Component {
   existBookInShelf = book => {
     let shelf = "none";
     this.state.books.map(b => {
-      if (b.id === book.id) shelf = b.shelf;
+      if (b.id === book.id) {
+        return (shelf = b.shelf);
+      } else {
+        return null;
+      }
     });
     return shelf;
   };
